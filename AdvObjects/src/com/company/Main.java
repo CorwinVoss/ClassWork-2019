@@ -1,29 +1,45 @@
 package com.company;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        // write your code here
 //most of this assignment is trying to read the existing code to understand how it works,
         //ask a classmate or instructor if you are unsure how the code works.
-
+        Random rand = new Random();
+        Scanner scanner = new Scanner(System.in);
+        String keepPlaying = "yes";
         //generate a new player
-        Player player = new Player();
-        //create main game loop that continues until the player has no health
-        while (player.getHealth() > 0){
-            //generate a new enemy( the level of the enemy should be the player's level)
-            Enemy enemy = new Enemy(player.getPlayerLevel());
-            //create battle loop that should continue while both the player and enemy are alive
-            while (player.getHealth() > 0 && enemy.getHealth() > 0){
-                //gets player's input on what to do (use one of the methods to do this)
-                player.menu(enemy);
-                //has the enemy take damage
-                enemy.takeDamage(player);
-                //has the player take damage
-                player.takeDamage(enemy);
+        while (keepPlaying.equalsIgnoreCase("yes")) {
+            Player player = new Player();
+            //create main game loop that continues until the player has no health
+            while (player.getHealth() > 0) {
+                int randInt = rand.nextInt(100);
+                //generate a new enemy( the level of the enemy should be the player's level)
+                Enemy enemy = new Enemy(player.getPlayerLevel());
+                //create battle loop that should continue while both the player and enemy are alive
+                while (player.getHealth() > 0 && enemy.getHealth() > 0) {
+                    //gets player's input on what to do (use one of the methods to do this)
+                    player.menu(enemy);
+                    //has the enemy take damage
+                    enemy.takeDamage(player);
+                    //has the player take damage
+                    player.takeDamage(enemy);
+                }
+                if (randInt == 1){
+                    System.out.println("You found a rare chest");
+                    System.out.println("All stats +25 and 10 health potions");
+                    player.chestFound();
+                }
             }
+            //once the player is dead print out the player's level and how much xp they had.
+            System.out.println("Your player was level " + player.getPlayerLevel() + " with " + player.getXp() + " xp.");
+
+            System.out.println("Would you like to keep playing?");
+            keepPlaying = scanner.nextLine();
         }
-        //once the player is dead print out the player's level and how much xp they had.
-        System.out.println("Your player was level " + player.getPlayerLevel() + " with " + player.getXp() + " xp.");
     }
 }

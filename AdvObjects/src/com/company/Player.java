@@ -53,7 +53,7 @@ public class Player {
     public void menu(Enemy enemy){
         Scanner console = new Scanner(System.in);
         while (true) {
-            System.out.println("What would you like to do? heal or attack or stats");
+            System.out.println("What would you like to do? heal or attack or stats or exit");
 
             String answer = console.nextLine();
             if (answer.equalsIgnoreCase("heal")) {
@@ -71,6 +71,12 @@ public class Player {
                 System.out.println("health:  " + enemy.getHealth());
                 System.out.println("attack:  " + enemy.getAttack());
                 System.out.println("defense: " + enemy.getDefense());
+            } else if (answer.equalsIgnoreCase("exit")){
+                System.out.println("Are you sure?");
+                String exit = console.nextLine();
+                if (exit.equalsIgnoreCase("yes")) {
+                    System.exit(0);
+                }
             }
         }
     }
@@ -98,10 +104,20 @@ public class Player {
 
     //call to use a health potion
     private void heal(){
+        int amount = 0;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("You have " + healthPotions + " potions");
+        System.out.println("How many health potions do you want to use");
+        try {
+            amount = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException ex){
+            System.out.println("Please use a real number");
+            heal();
+        }
         if(healthPotions >0){
-            healthPotions--;
-            health = health +50;
-            System.out.println("you drank one potion and restored 50 health, you now have "+health+" health");
+            healthPotions -= amount;
+            health += 50 * amount;
+            System.out.println("you drank " + amount + "  potion(s) and restored " + amount * 50 + " health, you now have "+health+" health");
         }
         else{
             System.out.println("you have no health potions");
@@ -109,15 +125,30 @@ public class Player {
     }
 
     //call when player kills an enemy (should not need to be called in main
-    public void gainXP(){
-        xp++;
+    public void gainXP(int multiplier){
+        int randPots = rand.nextInt(10);
+        if (multiplier == 1){
+            xp++;
+        } else{
+            xp *= multiplier;
+        }
+
         //if they leveled up
         if (xp>(int) (5*Math.pow(1.3,playerLevel))){
-            System.out.println("you are now level: " + playerLevel);
             playerLevel++;
-            healthPotions = healthPotions+5;
+            System.out.println("You are now level: " + playerLevel);
+            System.out.println("You got " + randPots + " health potions");
+            healthPotions += randPots;
             attack = attack +rand.nextInt(7)+1;
             defense = defense + rand.nextInt(7)+1;
         }
+    }
+
+    //if they find the chest
+    public void chestFound(){
+        healthPotions += 10;
+        attack = getAttack() + 25;
+        defense = getDefense() + 25;
+        health = getHealth() + 25;
     }
 }

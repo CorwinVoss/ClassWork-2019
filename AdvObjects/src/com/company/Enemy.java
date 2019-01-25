@@ -10,6 +10,7 @@ public class Enemy {
     private int defense;
     private int attack;
     private int enemeyLevel;
+    Random randXp;
     Random rand;
 
     //constructor that will initialize the instance variables (properties)
@@ -17,6 +18,7 @@ public class Enemy {
     //in the case that they have the same name.
     public Enemy(int enemeyLevel){
         rand = new Random();
+        randXp = new Random();
         this.enemeyLevel = enemeyLevel;
         health = 20 * this.enemeyLevel;
         defense = (rand.nextInt(10)+1) * this.enemeyLevel;
@@ -51,7 +53,12 @@ public class Enemy {
         System.out.println("you attacked the enemy and they took: " + damage + " damage!");
         if(!isAlive()){
             System.out.println("you killed the enemy!");
-            player.gainXP();
+            int multiplier = randXp.nextInt(5);
+            if (multiplier == 0){
+                multiplier += 1;
+            }
+            System.out.println("You got " + multiplier + " times xp!");
+            player.gainXP(multiplier);
             return false;
         }
         return true;
