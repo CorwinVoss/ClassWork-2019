@@ -67,6 +67,7 @@ public class Player {
                 System.out.println("attack:  " + getAttack());
                 System.out.println("defense: " + getDefense());
                 System.out.println("potions: " + healthPotions);
+                System.out.println();
                 System.out.println("enemy stats:");
                 System.out.println("health:  " + enemy.getHealth());
                 System.out.println("attack:  " + enemy.getAttack());
