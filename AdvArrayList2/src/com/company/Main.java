@@ -12,7 +12,7 @@ public class Main {
         boolean check = true;
         ArrayList<String> usernames = new ArrayList<>();
         ArrayList<String> passwords = new ArrayList<>();
-        while (true){
+        while (true) {
             while (true) {
                 System.out.println("Would you like to login or create an account?");
                 String input = scanner.nextLine();
